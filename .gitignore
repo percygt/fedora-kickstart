@@ -1,0 +1,3 @@
+*.iso
+nix-dots/
+*.img
