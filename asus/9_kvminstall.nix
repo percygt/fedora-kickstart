@@ -1,18 +1,19 @@
 {pkgs, ...}:
 pkgs.writeShellScriptBin "9_fedora_kvminstall" ''
-  set -eu
+    set -eu
 
-  [ "$UID" -ne 0 ] || {
-  	echo "This script must be run by $SUDO_USER."
-  	exit 1
-  }
+    [ "$UID" -ne 0 ] || {
+    	echo "This script must be run by $SUDO_USER."
+    	exit 1
+    }
+  sudo wget https://fedorapeople.org/groups/virt/virtio-win/virtio-win.repo \
+      -O /etc/yum.repos.d/virtio-win.repo
+    sudo dnf install qemu-kvm libvirt virt-install virt-manager virt-viewer edk2-ovmf swtpm qemu-img guestfs-tools libosinfo tuned virtio-win
 
-  sudo dnf install qemu-kvm libvirt virt-install virt-manager virt-viewer edk2-ovmf swtpm qemu-img guestfs-tools libosinfo tuned virtio-win
+    for drv in qemu interface network nodedev nwfilter secret storage; do
+    	sudo systemctl enable virt"''${drv}"d.service
+    	sudo systemctl enable virt"''${drv}"d{,-ro,-admin}.socket
+    done
 
-  for drv in qemu interface network nodedev nwfilter secret storage; do
-  	sudo systemctl enable virt"''${drv}"d.service
-  	sudo systemctl enable virt"''${drv}"d{,-ro,-admin}.socket
-  done
-
-  sudo reboot
+    sudo reboot
 ''

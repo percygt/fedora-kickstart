@@ -7,7 +7,7 @@ set -eu
 # Check if Nix is not installed
 if ! command -v nix >/dev/null; then
 	# Install Nix
-	curl -s https://raw.githubusercontent.com/percygt/nix-installer-scripts/main/installer-scripts/regular-nix-installer-selinux.sh | bash
+	curl -s https://raw.githubusercontent.com/dnkmmr69420/nix-installer-scripts/main/installer-scripts/regular-nix-installer-selinux.sh | bash
 	sleep 3
 	# Configure Nix
 	sudo rm -f /etc/nix/nix.conf
@@ -26,4 +26,9 @@ EOF
 	sleep 1
 fi
 
+# Inform the user about reboot
+echo "Rebooting the system..."
+sleep 2
+
+# Reboot the system
 systemctl reboot

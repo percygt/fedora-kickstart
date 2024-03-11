@@ -41,3 +41,10 @@ mount -va
 btrfs subvolume list /
 
 echo 'PRUNENAMES = ".snapshots"' | tee -a /etc/updatedb.conf
+
+# Inform the user about reboot
+echo "Rebooting the system..."
+sleep 2
+
+# Reboot the system
+systemctl reboot

@@ -28,3 +28,10 @@ fwupdmgr get-devices
 fwupdmgr refresh --force
 fwupdmgr get-updates
 fwupdmgr update
+
+# Inform the user about reboot
+echo "Rebooting the system..."
+sleep 2
+
+# Reboot the system
+systemctl reboot
