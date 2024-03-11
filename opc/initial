@@ -13,7 +13,7 @@ if [[ $(dnf check-update --refresh | grep -c '^[[:alnum:]]') -gt 0 ]]; then
 	# Update package metadata cache
 	dnf makecache
 	# Perform system update
-	dnf update
+	dnf update -y
 	# Wait for a few seconds
 	sleep 3
 else
