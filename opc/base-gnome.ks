@@ -47,15 +47,6 @@ btrfs none --label=FEDORA btrfs.main
 btrfs / --subvol --name=root FEDORA
 btrfs /home --subvol --name=home FEDORA
 
-%pre
-#!/bin/bash
-set -x
-
-cat<<'EOF'>>/etc/dnf/dnf.conf
-max_parallel_downloads=10
-ip_resolve=4
-EOF
-%end
 
 %post --interpreter=/bin/bash
 #!/bin/bash
@@ -65,10 +56,6 @@ rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-39-x86_64
 rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-free-fedora-39
 rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-nonfree-fedora-39
 
-cat<<'EOF'>>/etc/dnf/dnf.conf
-max_parallel_downloads=10
-ip_resolve=4
-EOF
 # Set the plymouth theme
 plymouth-set-default-theme charge -R
 
