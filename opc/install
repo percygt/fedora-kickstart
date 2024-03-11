@@ -29,7 +29,7 @@ case "$1" in
 	sudo sh ~/installer/initial
 	;;
 2)
-	sh ~/installer/btrfs_setup
+	sudo sh ~/installer/btrfs_setup
 	;;
 3)
 	sudo sh ~/installer/snapper_setup

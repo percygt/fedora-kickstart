@@ -7,15 +7,15 @@ set -eu
 }
 
 echo -e "Installing snapper . . .\n"
-# dnf install snapper python3-dnf-plugin-snapper -y
+dnf install snapper python3-dnf-plugin-snapper -y
 
-# snapper -c root create-config /
-# snapper -c home create-config /home
+snapper -c root create-config /
+snapper -c home create-config /home
 
-# snapper list-configs
+snapper list-configs
 
-# snapper -c root set-config ALLOW_USERS="$SUDO_USER" SYNC_ACL=yes
-# snapper -c home set-config ALLOW_USERS="$SUDO_USER" SYNC_ACL=yes
+snapper -c root set-config ALLOW_USERS="$SUDO_USER" SYNC_ACL=yes
+snapper -c home set-config ALLOW_USERS="$SUDO_USER" SYNC_ACL=yes
 
 ROOT_UUID="$(lsblk -f | grep FEDORA | sed 's/ \+/ /g' | cut -d ' ' -f 4)"
 OPTIONS="compress=lzo"
@@ -25,12 +25,12 @@ SUBVOLUMES=(
 	"home/.snapshots"
 )
 
-for dir in "''${SUBVOLUMES[@]}"; do
+for dir in "${SUBVOLUMES[@]}"; do
 	printf "%-41s %-35s %-5s %-s %-s\n" \
-		"UUID=''${ROOT_UUID}" \
-		"/''${dir}" \
+		"UUID=${ROOT_UUID}" \
+		"/${dir}" \
 		"btrfs" \
-		"subvol=''${dir},''${OPTIONS}" \
+		"subvol=${dir},${OPTIONS}" \
 		"0 0" |
 		tee -a /etc/fstab
 done
