@@ -47,7 +47,6 @@ btrfs none --label=FEDORA btrfs.main
 btrfs / --subvol --name=root FEDORA
 btrfs /home --subvol --name=home FEDORA
 
-
 %post --interpreter=/bin/bash
 #!/bin/bash
 set -x
@@ -93,12 +92,12 @@ gnome-shell
 gnome-terminal
 gnome-user-share
 gvfs*
+inotify-tools
 libappstream-glib
+make
 ostree
 plymouth-system-theme
 policycoreutils-python-utils
-inotify-tools
-make
 pykickstart
 rsync
 sdubby
