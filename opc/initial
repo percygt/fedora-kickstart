@@ -6,19 +6,14 @@ set -eu
 	echo "This script must be run as root."
 	exit 1
 }
-# Check if there are any available updates
-if [[ $(dnf check-update --refresh | grep -c '^[[:alnum:]]') -gt 0 ]]; then
-	# Clean dnf cache
-	dnf clean all
-	# Update package metadata cache
-	dnf makecache
-	# Perform system update
-	dnf update -y
-	# Wait for a few seconds
-	sleep 3
-else
-	echo "No updates available"
-fi
+
+dnf clean all
+# Update package metadata cache
+dnf makecache
+# Perform system update
+dnf update -y
+# Wait for a few seconds
+sleep 3
 
 # Inform the user about reboot
 echo "Rebooting the system..."
