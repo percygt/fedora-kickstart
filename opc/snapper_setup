@@ -17,7 +17,7 @@ snapper list-configs
 snapper -c root set-config ALLOW_USERS="$SUDO_USER" SYNC_ACL=yes
 snapper -c home set-config ALLOW_USERS="$SUDO_USER" SYNC_ACL=yes
 
-ROOT_UUID="$(grub2-probe --target=fs_uuid /)"
+ROOT_UUID="$(lsblk -f | grep FEDORA | sed 's/ \+/ /g' | cut -d ' ' -f 4)"
 OPTIONS="compress=lzo"
 
 SUBVOLUMES=(

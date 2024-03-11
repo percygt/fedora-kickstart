@@ -57,9 +57,9 @@ chown -R "$USER": /home/"$USER"/.var/app/com.brave.Browser
 systemctl daemon-reload
 mount -va
 
-for dir in "''${SUBVOLUMES[@]}"; do
-	if [[ -d "/''${dir}-old" ]]; then
-		rm -rf "/''${dir}-old"
+for dir in "${SUBVOLUMES[@]}"; do
+	if [[ -d "/${dir}-old" ]]; then
+		rm -rf "/${dir}-old"
 	fi
 done
 
