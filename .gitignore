@@ -1,3 +1,4 @@
 *.iso
 nix-dots/
 *.img
+*.tmp
