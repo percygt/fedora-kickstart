@@ -9,6 +9,7 @@ set -eu
 # flatpak list --columns=application --app >flatpaks.txt
 
 #rpm apps install
+sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 xargs sudo dnf install -y <~/installer/files/dnf_apps.txt
 sudo flatpak remote-modify --collection-id=org.flathub.Stable flathub
 
