@@ -32,24 +32,24 @@ SUBVOLUMES=(
 
 #### Run the for loop to create the subvolumes.
 #### Copy from 'for' to 'done', paste it in terminal, and hit <Enter>.
-for dir in "''${SUBVOLUMES[@]}"; do
-	if [[ -d "/''${dir}" ]]; then
-		mv -v "/''${dir}" "/''${dir}-old"
-		btrfs subvolume create "/''${dir}"
-		cp -ar "/''${dir}-old/." "/''${dir}/"
+for dir in "${SUBVOLUMES[@]}"; do
+	if [[ -d "/${dir}" ]]; then
+		sudo mv -v "/${dir}" "/${dir}-old"
+		sudo btrfs subvolume create "/${dir}"
+		sudo cp -ar "/${dir}-old/." "/${dir}/"
 	else
-		btrfs subvolume create "/''${dir}"
+		sudo btrfs subvolume create "/${dir}"
 	fi
-	restorecon -RF "/''${dir}"
-	printf "%-41s %-35s %-5s %-s %-s\n" \
-		"UUID=''${ROOT_UUID}" \
-		"/''${dir}" \
+	sudo restorecon -RF "/${dir}"
+	printf "%-41s %-24s %-5s %-s %-s\n" \
+		"UUID=${ROOT_UUID}" \
+		"/${dir}" \
 		"btrfs" \
-		"subvol=''${dir},''${OPTIONS}" \
+		"subvol=${dir},${OPTIONS}" \
 		"0 0" |
-		tee -a /etc/fstab
+		sudo tee -a /etc/fstab
 done
-
+sleep 2
 chmod 1777 /var/tmp
 chmod 1770 /var/lib/gdm
 chown -R "$USER": /home/"$USER"/.var/app/com.brave.Browser
