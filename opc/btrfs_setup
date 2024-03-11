@@ -25,7 +25,6 @@ SUBVOLUMES=(
 	"var/spool"
 	"var/www"
 	"var/lib/AccountsService"
-	"var/lib/libvirt/images"
 	"var/lib/gdm"
 	"home/$USER/.var/app/com.brave.Browser"
 )
