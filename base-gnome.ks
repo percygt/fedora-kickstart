@@ -11,14 +11,17 @@ keyboard --vckeymap=us --xlayouts='us'
 # System language
 lang en_US.UTF-8
 # Network information
-network  --bootproto=dhcp --hostname=FEDORA
+network  --bootproto=dhcp --hostname=furies-PC
 # Reboot after installation
 reboot --eject
-repo --name="rpmfusion-free" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-$releasever&arch=$basearch
-repo --name="rpmfusion-free-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=free-fedora-updates-released-$releasever&arch=$basearch
-repo --name="rpmfusion-nonfree" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-$releasever&arch=$basearch
-repo --name="rpmfusion-nonfree-updates" --mirrorlist=http://mirrors.rpmfusion.org/mirrorlist?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch
 repo --name="fedora-cisco-openh264"  --metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
+repo --name="rpmfusion-free"  --metalink=https://mirrors.rpmfusion.org/metalink?repo=free-fedora-$releasever&arch=$basearch
+repo --name="rpmfusion-free-updates"  --metalink=https://mirrors.rpmfusion.org/metalink?repo=free-fedora-updates-released-$releasever&arch=$basearch
+repo --name="rpmfusion-free-updates-testing"  --metalink=https://mirrors.rpmfusion.org/metalink?repo=free-fedora-updates-testing-$releasever&arch=$basearch
+repo --name="rpmfusion-nonfree"  --metalink=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-$releasever&arch=$basearch
+repo --name="rpmfusion-nonfree-updates"  --metalink=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch
+repo --name="rpmfusion-nonfree-updates-testing"  --metalink=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-updates-testing-$releasever&arch=$basearch
+
 # System services
 services --enabled="NetworkManager,sshd,bluetooth"
 # Do not configure the X Window System
@@ -50,8 +53,7 @@ btrfs /home --subvol --name=home FEDORA
 set -x
 
 cat<<'EOF'>>/etc/dnf/dnf.conf
-install_weak_deps=False
-deltarpm=False
+max_parallel_downloads=10
 ip_resolve=4
 EOF
 %end
@@ -65,11 +67,8 @@ rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-free-fedora-39
 rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-nonfree-fedora-39
 
 cat<<'EOF'>>/etc/dnf/dnf.conf
-install_weak_deps=False
 max_parallel_downloads=10
-deltarpm=False
 ip_resolve=4
-excludepkgs=xorg-x11-*
 EOF
 # Set the plymouth theme
 plymouth-set-default-theme charge -R
@@ -92,10 +91,11 @@ chmod +x /home/percygt/home-install
 %end
 
 %packages
+@core
 @fonts
 @guest-desktop-agents
 @hardware-support
-@multimedia
+@multimedia --nodefaults
 @networkmanager-submodules
 aria2
 bash-color-prompt
@@ -130,6 +130,7 @@ policycoreutils-python-utils
 pykickstart
 rsync
 wget
+sdubby
 xdg-desktop-portal-gnome
 xdg-user-dirs
 xdg-user-dirs-gtk
@@ -139,5 +140,6 @@ xdg-utils
 -ffmpeg-free
 -gstreamer-ffmpeg
 -gstreamer1-plugins-bad-free-devel
+-dracut-config-rescue
 
 %end

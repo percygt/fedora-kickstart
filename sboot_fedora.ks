@@ -47,7 +47,7 @@ firewall --enabled --service=ssh --remove-service=cockpit
 # Network information
 network  --bootproto=dhcp --device=link --hostname=freshinstall --activate
 
-repo --name="updates"  --metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch&country=us
+repo --name="updates"  --metalink=ttps://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch&country=us
 repo --name="updates-testing"  --metalink=https://mirrors.fedoraproject.org/metalink?repo=updates-testing-f$releasever&arch=$basearch&country=us
 repo --name="fedora-cisco-openh264"  --metalink=https://mirrors.fedoraproject.org/metalink?repo=fedora-cisco-openh264-$releasever&arch=$basearch
 repo --name="rpmfusion-free"  --metalink=https://mirrors.rpmfusion.org/metalink?repo=free-fedora-$releasever&arch=$basearch
