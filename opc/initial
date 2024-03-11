@@ -6,13 +6,6 @@ set -eu
 	echo "This script must be run as root."
 	exit 1
 }
-
-# Show Btrfs filesystem information
-btrfs filesystem show
-
-# Copy repository files if the directory exists
-[[ -e ./repos ]] && cp -Rnvp ./repos/* /etc/yum.repos.d/
-
 # Check if there are any available updates
 if [[ $(dnf check-update --refresh | grep -c '^[[:alnum:]]') -gt 0 ]]; then
 	# Clean dnf cache
