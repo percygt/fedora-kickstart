@@ -2,7 +2,7 @@
 #version=DEVEL
 # Use text mode install
 text
-
+# License agreement
 eula --agreed
 firstboot --disable
 ignoredisk --only-use=sda
@@ -21,7 +21,6 @@ repo --name="rpmfusion-free-updates-testing"  --metalink=https://mirrors.rpmfusi
 repo --name="rpmfusion-nonfree"  --metalink=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-$releasever&arch=$basearch
 repo --name="rpmfusion-nonfree-updates"  --metalink=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-updates-released-$releasever&arch=$basearch
 repo --name="rpmfusion-nonfree-updates-testing"  --metalink=https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-updates-testing-$releasever&arch=$basearch
-
 # System services
 services --enabled="NetworkManager,sshd,bluetooth"
 # Do not configure the X Window System
@@ -91,11 +90,9 @@ chmod +x /home/percygt/home-install
 %end
 
 %packages
-@core
 @fonts
 @guest-desktop-agents
 @hardware-support
-@multimedia --nodefaults
 @networkmanager-submodules
 aria2
 bash-color-prompt
@@ -103,43 +100,27 @@ bash-completion
 curl
 dnf-plugins-core
 fedora-workstation-repositories
-ffmpeg
-ffmpeg-libs
 flatpak
 git
 gnome-disk-utility
 gnome-shell
 gnome-terminal
 gnome-user-share
-gstreamer1-libav
-gstreamer1-plugin-openh264
-gstreamer1-plugins-bad-*
-gstreamer1-plugins-base
-gstreamer1-plugins-good-*
 gvfs*
-intel-gpu-firmware
-intel-media-driver
+inotify-tools
 libappstream-glib
-libva
-libva-utils
-mozilla-openh264
-openh264
+make
 ostree
 plymouth-system-theme
 policycoreutils-python-utils
 pykickstart
 rsync
-wget
 sdubby
+wget
 xdg-desktop-portal-gnome
 xdg-user-dirs
 xdg-user-dirs-gtk
 xdg-utils
 -@input-methods
--PackageKit-gstreamer-plugin
--ffmpeg-free
--gstreamer-ffmpeg
--gstreamer1-plugins-bad-free-devel
--dracut-config-rescue
 
 %end

@@ -4,15 +4,28 @@ set -eu
 	echo "This script must be run by $SUDO_USER."
 	exit 1
 }
-dnf clean all
-dnf makecache
-sleep 1
-sudo dnf update
-sleep 3
-curl -s https://raw.githubusercontent.com/percygt/nix-installer-scripts/main/installer-scripts/regular-nix-installer-selinux.sh | bash
-sleep 3
-sudo rm -f /etc/nix/nix.conf
-sudo tee /etc/nix/nix.conf <<EOF
+# Check if there are any available updates
+if [[ $(dnf check-update --refresh | grep -c '^[[:alnum:]]') -gt 0 ]]; then
+	# Clean dnf cache
+	dnf clean all
+	# Update package metadata cache
+	dnf makecache
+	# Perform system update
+	sudo dnf update
+	# Wait for a few seconds
+	sleep 3
+else
+	echo "No updates available"
+fi
+
+# Check if Nix is not installed
+if ! command -v nix >/dev/null; then
+	# Install Nix
+	curl -s https://raw.githubusercontent.com/percygt/nix-installer-scripts/main/installer-scripts/regular-nix-installer-selinux.sh | bash
+	sleep 3
+	# Configure Nix
+	sudo rm -f /etc/nix/nix.conf
+	sudo tee /etc/nix/nix.conf <<EOF
 experimental-features = nix-command flakes repl-flake
 auto-optimise-store = true
 keep-derivations = true
@@ -24,10 +37,7 @@ use-xdg-base-directories = true
 substituters = https://cache.nixos.org?priority=10 https://percygtdev.cachix.org https://nix-community.cachix.org
 trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= percygtdev.cachix.org-1:AGd4bI4nW7DkJgniWF4tS64EX2uSYIGqjZih2UVoxko= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=
 EOF
-sleep 1
-cp -r /run/media/"$USER"/v/.k/.ssh /home/"$USER"/
-sleep 1
-git clone --recurse-submodule git@gitlab.com:percygt/nix-dots.git
-sleep 1
+	sleep 1
+fi
 
 systemctl reboot
