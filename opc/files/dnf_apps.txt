@@ -1,4 +1,5 @@
 setools-console
+tailscale
 sushi
 nautilus
 file-roller
