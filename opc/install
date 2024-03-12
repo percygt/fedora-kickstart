@@ -38,7 +38,7 @@ case "$1" in
 	sh ~/installer/btrfs_cleanup
 	;;
 5)
-	sudo sh ~/installer/snapper_setup
+	sh ~/installer/snapper_setup
 	;;
 6)
 	sudo sh ~/installer/firmware_install
