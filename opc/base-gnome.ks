@@ -42,10 +42,9 @@ zerombr
 clearpart --all --initlabel --disklabel=gpt
 # Disk partitioning information
 part /boot/efi --fstype="efi" --size=1024 --label=ESP
-part btrfs.main --fstype="btrfs" --grow --fsoptions="compress=lzo"
-btrfs none --label=FEDORA btrfs.main
-btrfs / --subvol --name=root FEDORA
-btrfs /home --subvol --name=home FEDORA
+part btrfs.main --fstype="btrfs" --grow 
+btrfs / --label=FEDORA btrfs.main
+btrfs /home --subvol --name=home --mkfsoptions="compress=lzo" FEDORA
 
 %post --interpreter=/bin/bash
 #!/bin/bash

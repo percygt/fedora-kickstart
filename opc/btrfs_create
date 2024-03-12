@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -eu
 
-[ "$UID" -eq 0 ] || {
-	echo "This script must be run as root."
+# Check if the script is not run as root
+[ "$UID" -ne 0 ] || {
+	echo "This script must be run by $SUDO_USER."
 	exit 1
 }
 
@@ -26,14 +27,15 @@ SUBVOLUMES=(
 #### Copy from 'for' to 'done', paste it in terminal, and hit <Enter>.
 for dir in "${SUBVOLUMES[@]}"; do
 	if [[ -d "/${dir}" ]]; then
-		mv -v "/${dir}" "/${dir}-old"
-		btrfs subvolume create "/${dir}"
-		cp -ar "/${dir}-old/." "/${dir}/"
+		sudo mv -v "/${dir}" "/${dir}-old"
+		sudo btrfs subvolume create "/${dir}"
+		sudo cp -ar "/${dir}-old/." "/${dir}/"
 	else
-		btrfs subvolume create "/${dir}"
+		sudo btrfs subvolume create "/${dir}"
 	fi
-	restorecon -RF "/${dir}"
+	sudo restorecon -RF "/${dir}"
 done
 sleep 2
 btrfs subvolume list /
+
 cat /etc/fstab
