@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -eu
+
+[ "$UID" -ne 0 ] || {
+	echo "This script must be run by $SUDO_USER."
+	exit 1
+}
+
+#### Get the UUID of your btrfs system root.
+ROOT_UUID="$(lsblk -f | grep FEDORA | sed 's/ \+/ /g' | cut -d ' ' -f 4)"
+#### Get the btrfs subvolume mount options from your fstab.
+OPTIONS="compress=lzo,noatime"
+
+SUBVOLUMES=(
+	"opt"
+	"nix"
+	"var/cache"
+	"var/crash"
+	"var/tmp"
+	"var/log"
+	"var/spool"
+	"var/www"
+	"var/lib/gdm"
+	"var/lib/flatpak"
+	"var/lib/libvirt"
+	"var/lib/AccountsService"
+)
+for dir in "${SUBVOLUMES[@]}"; do
+	printf "%-41s %-24s %-5s %-s %-s\n" \
+		"UUID=${ROOT_UUID}" \
+		"/${dir}" \
+		"btrfs" \
+		"subvol=${dir},${OPTIONS}" \
+		"0 0" |
+		sudo tee -a /etc/fstab
+done
+sleep 2
+sudo chmod 1777 /var/tmp
+sudo chmod 1770 /var/lib/gdm
+
+sleep 2
+sudo systemctl daemon-reload
+sudo mount -va
+
+sudo btrfs subvolume list /
+sleep 1
+cat /etc/fstab
+sleep 1
+lsblk -p

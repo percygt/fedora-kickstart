@@ -42,9 +42,21 @@ zerombr
 clearpart --all --initlabel --disklabel=gpt
 # Disk partitioning information
 part /boot/efi --fstype="efi" --size=1024 --label=ESP
-part btrfs.main --fstype="btrfs" --grow 
+part btrfs.main --fstype="btrfs" --grow --fsoptions="compress=lzo"
 btrfs / --label=FEDORA btrfs.main
-btrfs /home --subvol --name=home --mkfsoptions="compress=lzo" FEDORA
+btrfs /home --subvol --name=home FEDORA
+btrfs /opt --subvol --name=opt --mkfsoptions="noatime" FEDORA
+btrfs /nix --subvol --name=nix --mkfsoptions="noatime" FEDORA
+btrfs /var/cache --subvol --name=var/cache --mkfsoptions="noatime" FEDORA
+btrfs /var/crash --subvol --name=var/crash --mkfsoptions="noatime" FEDORA
+btrfs /var/tmp --subvol --name=var/tmp --mkfsoptions="noatime" FEDORA
+btrfs /var/log --subvol --name=var/log --mkfsoptions="noatime" FEDORA
+btrfs /var/spool --subvol --name=var/spool --mkfsoptions="noatime" FEDORA
+btrfs /var/www --subvol --name=var/www --mkfsoptions="noatime" FEDORA
+btrfs /var/lib/gdm --subvol --name=var/lib/gdm --mkfsoptions="noatime" FEDORA
+btrfs /var/lib/flatpak --subvol --name=var/lib/flatpak --mkfsoptions="noatime" FEDORA
+btrfs /var/lib/libvirt --subvol --name=var/lib/libvirt --mkfsoptions="noatime" FEDORA
+btrfs /var/lib/AccountsService --subvol --name=var/lib/AccountsService --mkfsoptions="noatime" FEDORA
 
 %post --interpreter=/bin/bash
 #!/bin/bash

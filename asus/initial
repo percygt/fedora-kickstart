@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -eu
+
+# Check if the script is run as root
+[ "$UID" -eq 0 ] || {
+	echo "This script must be run as root."
+	exit 1
+}
+
+dnf clean all
+# Update package metadata cache
+dnf makecache
+# Perform system update
+dnf update -y
+# Wait for a few seconds
+sleep 3
+
+# Inform the user about reboot
+echo "Rebooting the system..."
+sleep 2
+
+# Reboot the system
+systemctl reboot

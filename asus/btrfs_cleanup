@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -eu
+
+[ "$UID" -ne 0 ] || {
+	echo "This script must be run by $SUDO_USER."
+	exit 1
+}
+
+SUBVOLUMES=(
+	"opt"
+	"nix"
+	"var/cache"
+	"var/crash"
+	"var/tmp"
+	"var/log"
+	"var/spool"
+	"var/www"
+	"var/lib/gdm"
+	"var/lib/flatpak"
+	"var/lib/libvirt"
+	"var/lib/AccountsService"
+)
+
+for dir in "${SUBVOLUMES[@]}"; do
+	if [[ -d "/${dir}-old" ]]; then
+		sudo rm -rvf "/${dir}-old"
+	fi
+done
+
+sudo btrfs subvolume list /
+sleep 1
+cat /etc/fstab
+sleep 1
+lsblk -p

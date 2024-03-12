@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -eu
+
+if [ ! -e ~/installer ]; then
+	git clone https://github.com/percygt/fedora-kickstart.git
+	sleep 2
+	cp -r fedora-kickstart/opc ~/installer
+	rm -rf fedora-kickstart
+	sleep 3
+fi
+
+if [ ! -e ~/nix-dots ]; then
+	# Define source and destination directories
+	source_dir="/run/media/$USER/v/.k/.ssh"
+	destination_dir="/home/$USER/"
+	if [ -e "$source_dir" ]; then
+		# Copy .ssh directory to the destination directory
+		cp -rf "$source_dir" "$destination_dir"
+		sleep 3
+		git clone --recurse-submodule git@gitlab.com:percygt/nix-dots.git
+		sleep 2
+	else
+		echo "Source directory $source_dir does not exist"
+	fi
+fi
+
+case "$1" in
+1)
+	sudo sh ~/installer/initial
+	;;
+2)
+	sh ~/installer/btrfs_create
+	;;
+3)
+	sh ~/installer/btrfs_mount
+	;;
+4)
+	sh ~/installer/btrfs_cleanup
+	;;
+5)
+	sh ~/installer/snapper_setup
+	;;
+6)
+	sudo sh ~/installer/firmware_install
+	;;
+7)
+	sh ~/installer/app_install
+	;;
+8)
+	sh ~/installer/nix_setup
+	;;
+9)
+	sh ~/installer/home_install
+	;;
+10)
+	sh ~/installer/home_setup
+	;;
+11)
+	sh ~/installer/kvm_install
+	;;
+*)
+	echo "Invalid argument: $1"
+	exit 1
+	;;
+esac
