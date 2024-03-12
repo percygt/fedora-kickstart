@@ -29,13 +29,13 @@ case "$1" in
 	sudo sh ~/installer/initial
 	;;
 2)
-	sudo sh ~/installer/btrfs_create
+	sh ~/installer/btrfs_create
 	;;
 3)
-	sudo sh ~/installer/btrfs_mount
+	sh ~/installer/btrfs_mount
 	;;
 4)
-	sudo sh ~/installer/btrfs_cleanup
+	sh ~/installer/btrfs_cleanup
 	;;
 5)
 	sudo sh ~/installer/snapper_setup

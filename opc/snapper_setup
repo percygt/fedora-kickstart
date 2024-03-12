@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 set -eu
 
-[ "$UID" -eq 0 ] || {
-	echo "This script must be run as root."
+[ "$UID" -ne 0 ] || {
+	echo "This script must be run by $SUDO_USER."
 	exit 1
 }
 
 echo -e "Installing snapper . . .\n"
-dnf install snapper python3-dnf-plugin-snapper -y
+sudo dnf install snapper python3-dnf-plugin-snapper -y
 
-snapper -c root create-config /
-snapper -c home create-config /home
+sudo snapper -c root create-config /
+sudo snapper -c home create-config /home
 
-snapper list-configs
+sudo snapper list-configs
 
-snapper -c root set-config ALLOW_USERS="$SUDO_USER" SYNC_ACL=yes
-snapper -c home set-config ALLOW_USERS="$SUDO_USER" SYNC_ACL=yes
+sudo snapper -c root set-config ALLOW_USERS="$USER" SYNC_ACL=yes
+sudo snapper -c home set-config ALLOW_USERS="$USER" SYNC_ACL=yes
 
 ROOT_UUID="$(lsblk -f | grep FEDORA | sed 's/ \+/ /g' | cut -d ' ' -f 4)"
 OPTIONS="compress=lzo"
@@ -32,13 +32,13 @@ for dir in "${SUBVOLUMES[@]}"; do
 		"btrfs" \
 		"subvol=${dir},${OPTIONS}" \
 		"0 0" |
-		tee -a /etc/fstab
+		sudo tee -a /etc/fstab
 done
 
-systemctl daemon-reload
-mount -va
+sudo systemctl daemon-reload
+sudo mount -va
 
-btrfs subvolume list /
+sudo btrfs subvolume list /
 
 echo 'PRUNENAMES = ".snapshots"' | tee -a /etc/updatedb.conf
 
@@ -47,4 +47,4 @@ echo "Rebooting the system..."
 sleep 2
 
 # Reboot the system
-systemctl reboot
+sudo systemctl reboot

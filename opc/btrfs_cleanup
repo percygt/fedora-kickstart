@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
-[ "$UID" -eq 0 ] || {
-	echo "This script must be run as root."
+[ "$UID" -ne 0 ] || {
+	echo "This script must be run by $SUDO_USER."
 	exit 1
 }
 
@@ -17,14 +17,16 @@ SUBVOLUMES=(
 	"var/www"
 	"var/lib/AccountsService"
 	"var/lib/gdm"
-	"home/$USER/.var/app/com.brave.Browser"
 )
 
 for dir in "${SUBVOLUMES[@]}"; do
 	if [[ -d "/${dir}-old" ]]; then
-		rm -rvf "/${dir}-old"
+		sudo rm -rvf "/${dir}-old"
 	fi
 done
 
-btrfs subvolume list /
+sudo btrfs subvolume list /
+sleep 1
 cat /etc/fstab
+sleep 1
+lsblk -p

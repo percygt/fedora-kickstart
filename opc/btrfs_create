@@ -1,14 +1,10 @@
 #!/usr/bin/env bash
 set -eu
 
-# Check if the script is not run as root
 [ "$UID" -ne 0 ] || {
 	echo "This script must be run by $SUDO_USER."
 	exit 1
 }
-
-#### Declare rest of the subvolumes you want to create in the array.
-mkdir -vp /home/"$USER"/.var/app/com.brave.Browser
 
 SUBVOLUMES=(
 	"opt"
@@ -21,7 +17,6 @@ SUBVOLUMES=(
 	"var/www"
 	"var/lib/AccountsService"
 	"var/lib/gdm"
-	"home/$USER/.var/app/com.brave.Browser"
 )
 #### Run the for loop to create the subvolumes.
 #### Copy from 'for' to 'done', paste it in terminal, and hit <Enter>.
@@ -36,6 +31,5 @@ for dir in "${SUBVOLUMES[@]}"; do
 	sudo restorecon -RF "/${dir}"
 done
 sleep 2
-btrfs subvolume list /
-
+sudo btrfs subvolume list /
 cat /etc/fstab
