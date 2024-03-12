@@ -15,8 +15,10 @@ SUBVOLUMES=(
 	"var/log"
 	"var/spool"
 	"var/www"
-	"var/lib/AccountsService"
 	"var/lib/gdm"
+	"var/lib/flatpak"
+	"var/lib/libvirt"
+	"var/lib/AccountsService"
 )
 #### Run the for loop to create the subvolumes.
 #### Copy from 'for' to 'done', paste it in terminal, and hit <Enter>.

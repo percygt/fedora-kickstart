@@ -15,8 +15,10 @@ SUBVOLUMES=(
 	"var/log"
 	"var/spool"
 	"var/www"
-	"var/lib/AccountsService"
 	"var/lib/gdm"
+	"var/lib/flatpak"
+	"var/lib/libvirt"
+	"var/lib/AccountsService"
 )
 
 for dir in "${SUBVOLUMES[@]}"; do
