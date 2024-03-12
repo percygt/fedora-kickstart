@@ -29,21 +29,27 @@ case "$1" in
 	sudo sh ~/installer/initial
 	;;
 2)
-	sudo sh ~/installer/btrfs_setup
+	sudo sh ~/installer/btrfs_create
 	;;
 3)
-	sudo sh ~/installer/snapper_setup
+	sudo sh ~/installer/btrfs_mount
 	;;
 4)
-	sudo sh ~/installer/firmware_install
+	sudo sh ~/installer/btrfs_cleanup
 	;;
 5)
-	sh ~/installer/app_install
+	sudo sh ~/installer/snapper_setup
 	;;
 6)
-	sh ~/installer/nix_setup
+	sudo sh ~/installer/firmware_install
 	;;
 7)
+	sh ~/installer/app_install
+	;;
+8)
+	sh ~/installer/nix_setup
+	;;
+9)
 	sh ~/installer/home_install
 	;;
 *)

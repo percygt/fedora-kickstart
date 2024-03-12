@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -eu
+
+[ "$UID" -eq 0 ] || {
+	echo "This script must be run as root."
+	exit 1
+}
+
+#### Get the UUID of your btrfs system root.
+ROOT_UUID="$(lsblk -f | grep FEDORA | sed 's/ \+/ /g' | cut -d ' ' -f 4)"
+#### Get the btrfs subvolume mount options from your fstab.
+OPTIONS="compress=lzo"
+
+SUBVOLUMES=(
+	"opt"
+	"nix"
+	"var/cache"
+	"var/crash"
+	"var/tmp"
+	"var/log"
+	"var/spool"
+	"var/www"
+	"var/lib/AccountsService"
+	"var/lib/gdm"
+	"home/$USER/.var/app/com.brave.Browser"
+)
+for dir in "${SUBVOLUMES[@]}"; do
+	printf "%-41s %-24s %-5s %-s %-s\n" \
+		"UUID=${ROOT_UUID}" \
+		"/${dir}" \
+		"btrfs" \
+		"subvol=${dir},${OPTIONS}" \
+		"0 0" |
+		tee -a /etc/fstab
+done
+sleep 2
+chmod 1777 /var/tmp
+chmod 1770 /var/lib/gdm
+chown -R "$USER": /home/"$USER"/.var/app/com.brave.Browser
+
+systemctl daemon-reload
+mount -va
+
+btrfs subvolume list /
+cat /etc/fstab
