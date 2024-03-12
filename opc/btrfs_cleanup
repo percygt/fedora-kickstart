@@ -22,7 +22,7 @@ SUBVOLUMES=(
 
 for dir in "${SUBVOLUMES[@]}"; do
 	if [[ -d "/${dir}-old" ]]; then
-		sudo rm -rvf "/${dir}-old"
+		rm -rvf "/${dir}-old"
 	fi
 done
 
