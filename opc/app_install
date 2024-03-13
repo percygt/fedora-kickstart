@@ -16,7 +16,7 @@ sleep 2
 dnf clean packages
 
 sleep 3
-sudo dnf install tailscale
+sudo dnf install tailscale -y
 sleep 2
 sudo tailscale up
 sleep 3
