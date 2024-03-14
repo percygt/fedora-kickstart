@@ -6,5 +6,5 @@ set -eu
 	exit 1
 } # Need to figure out how to pkexec so we only ask for the password once.
 
-cp -rvf ~/.themes/* /usr/share/themes/
-cp -rvf ~/.icons/* /usr/share/icons/
+cp -rfL ~/.themes/. /usr/share/themes/
+cp -rfL ~/.icons/. /usr/share/icons/
