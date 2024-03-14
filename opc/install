@@ -9,8 +9,8 @@ if [ ! -e ~/installer ]; then
 	sleep 2
 	dconf load / <~/installer/files/gnome-extensions.ini
 	sleep 2
-	sudo cp -r ~/installer/files/Colloid-dark-cursors /usr/share/icons/
-	sleep 3
+	# sudo cp -r ~/installer/files/Colloid-dark-cursors /usr/share/icons/
+	# sleep 3
 fi
 
 if [ ! -e ~/nix-dots ]; then
