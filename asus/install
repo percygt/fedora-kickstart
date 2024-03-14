@@ -6,7 +6,11 @@ if [ ! -e ~/installer ]; then
 	sleep 2
 	cp -r fedora-kickstart/opc ~/installer
 	rm -rf fedora-kickstart
-	sleep 3
+	sleep 2
+	dconf load / <~/installer/files/gnome-extensions.ini
+	sleep 2
+	# sudo cp -r ~/installer/files/Colloid-dark-cursors /usr/share/icons/
+	# sleep 3
 fi
 
 if [ ! -e ~/nix-dots ]; then
@@ -57,6 +61,9 @@ case "$1" in
 	;;
 11)
 	sh ~/installer/kvm_install
+	;;
+12)
+	sudo sh ~/installer/themes_setup
 	;;
 *)
 	echo "Invalid argument: $1"

@@ -57,7 +57,7 @@ case "$1" in
 	sh ~/installer/home_install
 	;;
 10)
-	sh ~/installer/themes_setup
+	sudo sh ~/installer/themes_setup
 	;;
 *)
 	echo "Invalid argument: $1"
