@@ -6,6 +6,9 @@ if [ ! -e ~/installer ]; then
 	sleep 2
 	cp -r fedora-kickstart/opc ~/installer
 	rm -rf fedora-kickstart
+	sleep 2
+	dconf load / <~/installer/files/gnome-extensions.ini
+	sleep 2
 	sudo cp -r ~/installer/files/Colloid-dark-cursors /usr/share/icons/
 	sleep 3
 fi
