@@ -20,3 +20,16 @@ sudo flatpak remote-modify --collection-id=org.flathub.Stable flathub
 xargs flatpak install -y <~/installer/files/flatpaks.txt
 
 flatpak update -y
+
+flatpak --user override --filesystem="$HOME"/.local/share/fonts
+flatpak --user override --filesystem="$HOME"/.local/share/icons
+flatpak --user override --filesystem="$HOME"/.local/share/themes
+flatpak --user override --filesystem="$HOME"/.icons
+flatpak --user override --filesystem="$HOME"/.themes
+
+# Inform the user about reboot
+echo "Rebooting the system..."
+sleep 2
+
+# Reboot the system
+systemctl reboot
