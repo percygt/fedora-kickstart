@@ -7,16 +7,9 @@ set -eu
 	exit 1
 }
 
-# Extract hostname without the "-PC" suffix
-hostName=$(hostname | sed 's/-PC//')
-
 # Initialize Home Manager and switch to the specified configuration
-nix run home-manager/release-23.11 -- init --switch "/home/$USER/nix-dots?submodules=1#$hostName"
+nix run home-manager/release-23.11 -- init --switch "/home/$USER/nix-dots?submodules=1#$HOSTNAME"
 sleep 3
 
 # Activate the Home Manager configuration
-home-manager switch --flake "/home/$USER/nix-dots?submodules=1#$hostName"
-sleep 1
-
-# Run nix develop for the project associated with the specified hostname
-nix develop .#"$hostName"
+home-manager switch --flake "/home/$USER/nix-dots?submodules=1#$HOSTNAME"

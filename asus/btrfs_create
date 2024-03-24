@@ -20,8 +20,6 @@ SUBVOLUMES=(
 	"var/lib/libvirt"
 	"var/lib/AccountsService"
 )
-#### Run the for loop to create the subvolumes.
-#### Copy from 'for' to 'done', paste it in terminal, and hit <Enter>.
 for dir in "${SUBVOLUMES[@]}"; do
 	if [[ -d "/${dir}" ]]; then
 		sudo mv -v "/${dir}" "/${dir}-old"
