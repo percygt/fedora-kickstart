@@ -74,6 +74,8 @@ systemctl set-default graphical.target
 
 systemctl enable gdm
 
+echo uinput | tee /etc/modules-load.d/uinput.conf
+
 # Configure Flatpak
 systemctl disable flatpak-add-fedora-repos
 flatpak remote-add flathub https://dl.flathub.org/repo/flathub.flatpakrepo
@@ -114,9 +116,6 @@ rsync
 sdubby
 wget
 xdg-desktop-portal-gnome
-xdg-user-dirs
-xdg-user-dirs-gtk
-xdg-utils
 -@input-methods
 
 %end

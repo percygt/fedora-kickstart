@@ -5,6 +5,7 @@ text
 # License agreement
 eula --agreed
 firstboot --disable
+ignoredisk --only-use=sda
 # Keyboard layouts
 keyboard --vckeymap=us --xlayouts='us'
 # System language
@@ -35,7 +36,7 @@ timezone Asia/Manila --utc
 # Use network installation
 url --mirrorlist="https://mirrors.fedoraproject.org/mirrorlist?repo=fedora-$releasever&arch=$basearch"
 # System bootloader configuration
-bootloader --append="rd.driver.blacklist=nouveau modprobe.blacklist=nouveau nvidia-drm.modeset=0 intel_iommu=on iommu=pt" --location=mbr --sdboot
+bootloader --append="rd.driver.blacklist=nouveau modprobe.blacklist=nouveau intel_iommu=on iommu=pt" --location=mbr --sdboot
 # Disk partitioning information
 part /boot/efi --fstype="efi" --noformat --onpart=LABEL=ESP
 part btrfs.main --fstype="btrfs" --size=160000 --fsoptions="compress=lzo"
@@ -95,7 +96,6 @@ sed -i "s/#Experimental = false/Experimental = true/" /etc/bluetooth/main.conf
 @networkmanager-submodules
 @printing
 akmod-nvidia
-aria2
 asusctl
 bash-color-prompt
 bash-completion
@@ -115,13 +115,9 @@ ostree
 plymouth-system-theme
 pykickstart
 rsync
-stow
 supergfxctl
 wget
 xdg-desktop-portal-gnome
-xdg-user-dirs
-xdg-user-dirs-gtk
-xdg-utils
 xorg-x11-drv-nvidia-cuda
 -@input-methods
 -dracut-config-rescue

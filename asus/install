@@ -9,23 +9,11 @@ if [ ! -e ~/installer ]; then
 	sleep 2
 	dconf load / <~/installer/files/gnome-extensions.ini
 	sleep 2
-	# sudo cp -r ~/installer/files/Colloid-dark-cursors /usr/share/icons/
-	# sleep 3
 fi
 
 if [ ! -e ~/nix-dots ]; then
-	# Define source and destination directories
-	source_dir="/run/media/$USER/v/.k/.ssh"
-	destination_dir="/home/$USER/"
-	if [ -e "$source_dir" ]; then
-		# Copy .ssh directory to the destination directory
-		cp -rf "$source_dir" "$destination_dir"
-		sleep 3
-		git clone --recurse-submodule git@gitlab.com:percygt/nix-dots.git
-		sleep 2
-	else
-		echo "Source directory $source_dir does not exist"
-	fi
+	git clone git@gitlab.com:percygt/nix-dots.git
+	sleep 2
 fi
 
 case "$1" in

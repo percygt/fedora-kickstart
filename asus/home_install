@@ -7,9 +7,15 @@ set -eu
 	exit 1
 }
 
+echo uinput | sudo tee /etc/modules-load.d/uinput.conf
+sleep 2
+sudo gpasswd -a percygt input
+sleep 2
+echo 'KERNEL=="uinput", GROUP="input", TAG+="uaccess"' | sudo tee /etc/udev/rules.d/99-input.rules
+
 # Initialize Home Manager and switch to the specified configuration
-nix run home-manager/release-23.11 -- init --switch "/home/$USER/nix-dots?submodules=1#$HOSTNAME"
+nix run home-manager/release-23.11 -- init --switch "/home/$USER/nix-dots#$HOSTNAME"
 sleep 3
 
 # Activate the Home Manager configuration
-home-manager switch --flake "/home/$USER/nix-dots?submodules=1#$HOSTNAME"
+home-manager switch --flake "/home/$USER/nix-dots#$HOSTNAME"

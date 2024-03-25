@@ -19,13 +19,8 @@ sudo flatpak remote-modify --collection-id=org.flathub.Stable flathub
 #Flatpak apps online install
 xargs flatpak install -y <~/installer/files/flatpaks.txt
 
-flatpak update -y
-
-flatpak --user override --filesystem="$HOME"/.local/share/fonts
-flatpak --user override --filesystem="$HOME"/.local/share/icons
-flatpak --user override --filesystem="$HOME"/.local/share/themes
-flatpak --user override --filesystem="$HOME"/.icons
-flatpak --user override --filesystem="$HOME"/.themes
+[[ -e "$HOME/.var/app/com.brave.Browser/config/BraveSoftware/Brave-Browser" ]] || mkdir -p "$HOME/.var/app/com.brave.Browser/config/BraveSoftware/Brave-Browser"
+rsync -av --delete --ignore-existing "$HOME/data/brave/." "$HOME/.var/app/com.brave.Browser/config/BraveSoftware/Brave-Browser/"
 
 # Inform the user about reboot
 echo "Rebooting the system..."
